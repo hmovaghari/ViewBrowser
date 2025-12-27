@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = "🌐 Advanced Web Proxy & VPN Browser";
+    var initialUrl = ViewBag.InitialUrl as string ?? "";
+}
+
+<style>
+    .proxy-container {
+        height: calc(100vh - 100px);
+        display: flex;
+        flex-direction: column;
+    }
+    .proxy-toolbar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .proxy-frame {
+        flex: 1;
+        border: 3px solid #667eea;
+        border-radius: 10px;
+        background: white;
+        overflow: hidden;
+        position: relative;
+    }
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255,255,255,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .url-input {
+        border: 2px solid white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    .btn-proxy {
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    .btn-proxy:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    #contentFrame {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+</style>
+
+<div class="container-fluid proxy-container">
+    <div class="proxy-toolbar">
+        <div class="row align-items-center g-2">
+            <div class="col-auto">
+                <span class="status-badge">
+                    <span id="connectionStatus" class="badge bg-secondary">🔴 Disconnected</span>
+                </span>
+            </div>
+            <div class="col-auto">
+                <button id="connectBtn" class="btn btn-success btn-proxy btn-sm">
+                    🔌 Connect VPN
+                </button>
+                <button id="disconnectBtn" class="btn btn-danger btn-proxy btn-sm" disabled>
+                    ❌ Disconnect
+                </button>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <input type="url" 
+                           class="form-control url-input" 
+                           id="targetUrl" 
+                           placeholder="Enter URL (e.g., https://example.com)"
+                           value="@initialUrl">
+                    <button class="btn btn-light btn-proxy" id="goBtn" disabled>
+                        🚀 Go
+                    </button>
+                    <button class="btn btn-light btn-proxy" id="refreshBtn" disabled>
+                        🔄 Refresh
+                    </button>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="text-white small">
+                    <span id="loadTime"></span>
+                    <span id="cacheStatus"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="proxy-frame">
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="text-center">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="mt-3">
+                    <h5>🔒 Loading through secure VPN tunnel...</h5>
+                </div>
+            </div>
+        </div>
+        <iframe id="contentFrame" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"></iframe>
+    </div>
+</div>
+
+<script src="~/js/proxy-browser.js"></script>
