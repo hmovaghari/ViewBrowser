@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddMemoryCache();
 
 // تنظیمات Proxy
-var proxyBaseUrl = builder.Configuration["ProxyBaseUrl"] ?? "https://test.hmovaghari.ir";
+var proxyBaseUrl = builder.Configuration["ProxyBaseUrl"] ?? "https://mybrowser.ir";
 builder.Services.AddSingleton(new ProxySettings
 {
     EnableSsl = true,
