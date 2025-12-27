@@ -1,0 +1,347 @@
+/* ============================================
+   Proxy Browser Styles - Advanced VPN Browser
+   ============================================ */
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Main Container - Takes full viewport */
+.proxy-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+/* Frame Container - Takes all available space */
+.proxy-frame {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #f8f9fa;
+    border: 2px solid #667eea;
+}
+
+/* Toolbar - Fixed at bottom */
+.proxy-toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 8px 12px;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+/* Single Line Layout */
+.toolbar-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) transparent;
+}
+
+.toolbar-content::-webkit-scrollbar {
+    height: 4px;
+}
+
+.toolbar-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.toolbar-content::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 2px;
+}
+
+/* Status Badge */
+.status-section {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Connection Buttons */
+.connection-section {
+    flex-shrink: 0;
+    display: flex;
+    gap: 6px;
+}
+
+/* URL Input Section */
+.url-section {
+    flex: 1;
+    min-width: 200px;
+    max-width: 600px;
+    display: flex;
+    gap: 6px;
+}
+
+.url-input {
+    flex: 1;
+    border: 2px solid rgba(255,255,255,0.9);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    background: rgba(255,255,255,0.95);
+    outline: none;
+    transition: all 0.3s;
+}
+
+.url-input:focus {
+    border-color: white;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+    background: white;
+}
+
+/* Buttons */
+.btn-proxy {
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-weight: 600;
+    font-size: 13px;
+    border: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.btn-proxy:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.btn-proxy:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-light {
+    background: white;
+    color: #667eea;
+}
+
+/* Stats Section */
+.stats-section {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding-left: 10px;
+    border-left: 1px solid rgba(255,255,255,0.3);
+}
+
+.stats-section span {
+    white-space: nowrap;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+/* iframe */
+#contentFrame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* Loading Spinner */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border: 4px solid rgba(102, 126, 234, 0.3);
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.status-badge.connected {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Responsive Design - Media Queries
+   ============================================ */
+
+/* Tablets (1024px and below) */
+@media (max-width: 1024px) {
+    .proxy-toolbar {
+        padding: 6px 10px;
+    }
+
+    .toolbar-content {
+        gap: 6px;
+    }
+
+    .url-section {
+        max-width: 400px;
+    }
+
+    .btn-proxy {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
+
+    .stats-section {
+        font-size: 10px;
+        gap: 8px;
+    }
+
+    .status-badge {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+}
+
+/* Mobile Phones (768px and below) */
+@media (max-width: 768px) {
+    .proxy-toolbar {
+        padding: 6px 8px;
+    }
+
+    .toolbar-content {
+        gap: 5px;
+        padding-bottom: 2px;
+    }
+
+    .status-section {
+        gap: 4px;
+    }
+
+    .connection-section {
+        gap: 4px;
+    }
+
+    .url-section {
+        min-width: 150px;
+        max-width: 300px;
+    }
+
+    .url-input {
+        padding: 5px 12px;
+        font-size: 12px;
+        border-radius: 16px;
+    }
+
+    .btn-proxy {
+        padding: 5px 10px;
+        font-size: 11px;
+        border-radius: 16px;
+    }
+
+    .btn-proxy span.btn-text {
+        display: none;
+    }
+
+    .stats-section {
+        font-size: 9px;
+        gap: 6px;
+        padding-left: 6px;
+    }
+
+    .status-badge {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+}
+
+/* Extra Small Devices (480px and below) */
+@media (max-width: 480px) {
+    .proxy-toolbar {
+        padding: 5px 6px;
+    }
+
+    .toolbar-content {
+        gap: 4px;
+    }
+
+    .url-section {
+        min-width: 120px;
+        flex: 1 1 auto;
+    }
+
+    .stats-section {
+        display: none;
+    }
+
+    .btn-proxy {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+
+    #refreshBtn {
+        display: none;
+    }
+}
